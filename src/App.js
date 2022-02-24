@@ -1,32 +1,15 @@
-/** @jsxImportSource @emotion/react */
-import React from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { Button, ButtonLink, CircleButton } from './components/Buttons';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-const Container = styled.div(props => ({
-  display: 'flex',
-  flexDirection: props.column && 'column'
-}));
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/Layout';
+import Index from './pages/products/Index';
 
 function App () {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/" element={
-          <Container>
-            <Button>This is a regular button.</Button>
-            <ButtonLink css={css`margin: auto`} to="/">This is a regular button.</ButtonLink>
-            <Button variant="outline">This is a primary button.</Button>
-            <Button variant="dark">This is a primary button.</Button>
-            <Button variant="link">This is a primary button.</Button>
-            <CircleButton>F</CircleButton>
-            <CircleButton variant="danger">F</CircleButton>
-          </Container>
-        }
-        />
+        <Route path="/" element={<Navigate to="/product"/>}/>
+        <Route path="/product" element={<Layout/>}>
+          <Route index element={<Index/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
