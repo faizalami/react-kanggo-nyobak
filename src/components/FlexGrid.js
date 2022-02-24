@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { m } from './utilities';
 
 const container = css`
   width: 100%;
   max-width: 80rem;
+  ${m.aAuto}
 `;
 
 export function applyFlexTo (component, defaultProps) {

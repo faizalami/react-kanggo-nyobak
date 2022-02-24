@@ -11,16 +11,16 @@ const spacePosition = {
   r: '-right',
 };
 
-for (let i = 0; i <= 8; i += 1) {
+for (let i = 0; i <= 9; i += 1) {
   Object.keys(spacePosition).forEach(key => {
-    if (i === 0) {
+    if (i === 9) {
       m[`${key}Auto`] = css`margin${spacePosition[key]}: auto`;
     } else {
       m[`${key}${i}`] = css`margin${spacePosition[key]}: ${i * 0.25}rem`;
       p[`${key}${i}`] = css`padding${spacePosition[key]}: ${i * 0.25}rem`;
     }
   });
-  if (i === 0) {
+  if (i === 9) {
     m[`xAuto`] = css`
       margin-left: auto;
       margin-right: auto;

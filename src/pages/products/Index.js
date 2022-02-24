@@ -12,7 +12,7 @@ export default function Index () {
   return (
     <Container>
       <Button>This is a regular button.</Button>
-      <ButtonLink css={[m.aAuto, p.a1]} to="/">This is a regular button.</ButtonLink>
+      <ButtonLink css={[m.aAuto, p.a1]} to="/product/1">This is a regular button.</ButtonLink>
       <Button variant="outline">This is a primary button.</Button>
       <Button variant="dark">This is a primary button.</Button>
       <Button css={m.aAuto} variant="link">This is a primary button.</Button>
