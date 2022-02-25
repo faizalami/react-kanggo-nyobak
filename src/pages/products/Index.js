@@ -1,23 +1,55 @@
 /** @jsxImportSource @emotion/react */
-import styled from '@emotion/styled';
-import { Button, ButtonLink, CircleButton } from '../../components/Buttons';
-import { m, p } from '../../components/utilities';
+import { ButtonLink } from '../../components/Buttons';
+import { Flex, Grid } from '../../components/FlexGrid';
+import { margin, width, textIcon, pageWrapper } from '../../components/utilities';
+import { ReactComponent as PlusIcon } from '../../icons/plus.svg';
+import ProductCard from '../../components/ProductCard';
 
-const Container = styled.div(props => ({
-  display: 'flex',
-  flexDirection: props.column && 'column'
-}));
+const productDummy = [
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
+    price: 20000,
+  },
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
+    price: 50000,
+  },
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
+    price: 20000,
+  },
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
+    price: 50000,
+  },
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
+    price: 20000,
+  },
+  {
+    name: 'Test',
+    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
+    price: 50000,
+  },
+];
 
 export default function Index () {
   return (
-    <Container>
-      <Button>This is a regular button.</Button>
-      <ButtonLink css={[m.aAuto, p.a1]} to="/product/1">This is a regular button.</ButtonLink>
-      <Button variant="outline">This is a primary button.</Button>
-      <Button variant="dark">This is a primary button.</Button>
-      <Button css={m.aAuto} variant="link">This is a primary button.</Button>
-      <CircleButton>F</CircleButton>
-      <CircleButton variant="danger">F</CircleButton>
-    </Container>
+    <Flex css={width.full}>
+      <ButtonLink to="/product/add" css={margin.lAuto}>
+        <PlusIcon css={[textIcon, margin.r1]}/> New Product
+      </ButtonLink>
+
+      <Grid cols={4} gap={4} css={[pageWrapper, margin.t3]}>
+        {productDummy.map((item, index) => (
+          <ProductCard key={index} {...item} />
+        ))}
+      </Grid>
+    </Flex>
   );
 }

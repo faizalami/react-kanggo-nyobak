@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { m } from './utilities';
+import { margin } from './utilities';
 
 const container = css`
   width: 100%;
   max-width: 80rem;
-  ${m.aAuto}
+  ${margin.aAuto}
 `;
 
 export function applyFlexTo (component, defaultProps) {
@@ -25,7 +25,10 @@ export function applyFlexTo (component, defaultProps) {
 
 export function applyGridTo (component, defaultProps) {
   const appliedComponent = styled(component)(props => css`
-    display: ${props.inline ? 'inline-flex' : 'flex'};
+    display: ${props.inline ? 'inline-grid' : 'grid'};
+    ${props.cols ? `grid-template-columns: repeat(${props.cols}, minmax(0, 1fr));` : null}
+    ${props.rows ? `grid-template-rows: repeat(${props.cols}, minmax(0, 1fr));` : null}
+    ${props.gap ? `gap: ${props.gap * 0.25}rem;` : null}
     ${props.container ? container : null}
   `);
   appliedComponent.defaultProps = { ...defaultProps };

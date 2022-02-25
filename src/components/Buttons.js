@@ -2,7 +2,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { dark, lightGray, gray, darkGray, indigo, darkIndigo, red, darkRed } from './variables';
-import { p } from './utilities';
+import { padding } from './utilities';
 import { applyFlexTo } from './FlexGrid';
 import { Link } from 'react-router-dom';
 
@@ -58,8 +58,8 @@ const baseButton = (props) => css`
   text-decoration: none;
   font-size: 1rem;
   cursor: pointer;
-  ${p.y2}
-  ${p.x4}
+  ${padding.y2}
+  ${padding.x4}
   ${buttonVariants(props.variant)}
 `;
 
@@ -67,13 +67,18 @@ const circleButton = () => css`
   border-radius: 50%;
   width: 2.5rem;
   height: 2.5rem;
-  line-height: 1.5rem;
-  ${p.a2}
+
+  ${padding.a0}
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 const defaultFlexProps = {
   inline: true,
   justifyContent: 'center',
+  alignItems: 'center',
 };
 
 export const Button = applyFlexTo(styled.button`

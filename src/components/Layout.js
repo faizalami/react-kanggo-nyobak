@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Outlet } from 'react-router-dom';
 import { Flex } from './FlexGrid';
 import { Button, ButtonLink } from './Buttons';
-import { m, p } from './utilities';
+import { margin, padding } from './utilities';
 import { dark, gray } from './variables';
 
 const navBackground = css`background-color: #1e293b`;
@@ -22,8 +22,8 @@ export default function Layout (props) {
   return (
     <>
       <nav css={navBackground}>
-        <Flex container alignItems="center" css={p.y4}>
-          <h1 css={[m.y0, m.r4, appTitle]}>MyWeb</h1>
+        <Flex container alignItems="center" css={padding.y4}>
+          <h1 css={[margin.y0, margin.r4, appTitle]}>MyWeb</h1>
           <ButtonLink to="/product" variant="dark">Product</ButtonLink>
           <Button
             as="a"
@@ -40,14 +40,14 @@ export default function Layout (props) {
 
       {props.title ?
         <header css={pageTitleBackground}>
-          <Flex container alignItems="center" css={p.y6}>
-            <h2 css={[m.y0, m.r4, pageTitle]}>{props.title}</h2>
+          <Flex container alignItems="center" css={padding.y6}>
+            <h2 css={[margin.y0, margin.r4, pageTitle]}>{props.title}</h2>
           </Flex>
         </header>
         : null
       }
 
-      <Flex container css={m.t8}>
+      <Flex container css={margin.y8}>
         {props.children || <Outlet/>}
       </Flex>
     </>
