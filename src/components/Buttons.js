@@ -6,7 +6,7 @@ import { padding } from './utilities';
 import { applyFlexTo } from './FlexGrid';
 import { Link } from 'react-router-dom';
 
-const buttonVariants = (variant) => {
+function buttonVariants (variant) {
   switch (variant) {
     case 'outline':
       return css`

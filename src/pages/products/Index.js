@@ -45,7 +45,7 @@ export default function Index () {
         <PlusIcon css={[textIcon, margin.r1]}/> New Product
       </ButtonLink>
 
-      <Grid cols={4} gap={4} css={[pageWrapper, margin.t3]}>
+      <Grid cols={1} gap={4} lg={{ cols: 4 }} css={[pageWrapper, margin.t3]}>
         {productDummy.map((item, index) => (
           <ProductCard key={index} {...item} />
         ))}
