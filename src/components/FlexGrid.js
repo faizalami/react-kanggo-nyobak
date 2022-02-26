@@ -57,7 +57,7 @@ function generateGridProps (props) {
   return css`
     ${props.cols ? `grid-template-columns: repeat(${props.cols}, minmax(0, 1fr));` : null}
     ${props.rows ? `grid-template-rows: repeat(${props.cols}, minmax(0, 1fr));` : null}
-    ${props.gap ? `gap: ${props.gap * 0.25}rem;` : null}
+    ${props.gap && props.gap <= 8 ? `gap: ${props.gap * 0.25}rem;` : null}
     ${props.container ? container : null}
   `;
 }

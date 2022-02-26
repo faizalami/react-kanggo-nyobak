@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { margin, padding, rounded, width } from './utilities';
 import { Flex } from './FlexGrid';
 import { gray } from './variables';
-import { CircleButton } from './Buttons';
+import { CircleButton, CircleButtonLink } from './Buttons';
 import { ReactComponent as EyeIcon } from '../icons/eye.svg';
 import { ReactComponent as PencilIcon } from '../icons/pencil.svg';
 import { ReactComponent as TrashIcon } from '../icons/trash.svg';
@@ -27,9 +27,9 @@ export default function ProductCard ({ name, picture, price }) {
       <CardThumbnail src={picture} alt={name} loading="lazy" width={300} height={300}/>
 
       <Flex justifyContent="center" css={[padding.y2, width.full]}>
-        <CircleButton>
+        <CircleButtonLink to="/product/1">
           <EyeIcon/>
-        </CircleButton>
+        </CircleButtonLink>
         <CircleButton css={margin.x2}>
           <PencilIcon/>
         </CircleButton>

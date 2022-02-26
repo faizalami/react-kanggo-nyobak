@@ -47,7 +47,7 @@ export default function Layout (props) {
         : null
       }
 
-      <Flex container css={margin.y8}>
+      <Flex as="main" container css={margin.y8}>
         {props.children || <Outlet/>}
       </Flex>
     </>
