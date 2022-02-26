@@ -13,6 +13,21 @@ const container = css`
 
 const validMediaQuery = key => Object.keys(mediaQueries).includes(key);
 
+function generateResponsive (props, generatorFuntion) {
+  if (Object.keys(props).some(validMediaQuery)) {
+    return Object.keys(mediaQueries).reduce((styles, media) => {
+      if (props[media]) {
+        return {
+          ...styles,
+          [mediaQueries[media]]: css`${generatorFuntion(props[media])}`,
+        };
+      }
+      return styles;
+    }, {});
+  }
+  return null;
+}
+
 function generateFlexProps (props) {
   return css`
     ${props.justifyContent ? `justify-content: ${props.justifyContent};` : null}
@@ -23,21 +38,6 @@ function generateFlexProps (props) {
   `;
 }
 
-function generateResponsiveFlex (props) {
-  if (Object.keys(props).some(validMediaQuery)) {
-    return Object.keys(mediaQueries).reduce((styles, media) => {
-      if (props[media]) {
-        return {
-          ...styles,
-          [mediaQueries[media]]: css`${generateFlexProps(props[media])}`,
-        };
-      }
-      return styles;
-    }, {});
-  }
-  return null;
-}
-
 export function applyFlexTo (component, defaultProps) {
   const appliedComponent = styled(component)(props => css`
     display: ${props.inline ? 'inline-flex' : 'flex'};
@@ -45,7 +45,7 @@ export function applyFlexTo (component, defaultProps) {
     flex-wrap: ${props.wrap === false ? 'nowrap' : 'wrap'};
     ${generateFlexProps(props)}
 
-    ${generateResponsiveFlex(props)}
+    ${generateResponsive(props, generateFlexProps)}
   `);
   appliedComponent.defaultProps = { ...defaultProps };
   return appliedComponent;
@@ -62,27 +62,12 @@ function generateGridProps (props) {
   `;
 }
 
-function generateResponsiveGrid (props) {
-  if (Object.keys(props).some(validMediaQuery)) {
-    return Object.keys(mediaQueries).reduce((styles, media) => {
-      if (props[media]) {
-        return {
-          ...styles,
-          [mediaQueries[media]]: css`${generateGridProps(props[media])}`,
-        };
-      }
-      return styles;
-    }, {});
-  }
-  return null;
-}
-
 export function applyGridTo (component, defaultProps) {
   const appliedComponent = styled(component)(props => css`
     display: ${props.inline ? 'inline-grid' : 'grid'};
     ${generateGridProps(props)}
 
-    ${generateResponsiveGrid(props)}
+    ${generateResponsive(props, generateGridProps)}
   `);
   appliedComponent.defaultProps = { ...defaultProps };
   return appliedComponent;
