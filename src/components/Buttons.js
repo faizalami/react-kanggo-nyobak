@@ -11,7 +11,7 @@ function buttonVariants (variant) {
     case 'outline':
       return css`
         color: ${darkGray};
-        background-color: transparent;
+        background-color: white;
         border: 1px solid ${gray};
 
         &:hover, &:focus {

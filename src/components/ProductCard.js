@@ -21,18 +21,18 @@ const CardThumbnail = styled.img`
   ${width.full}
 `;
 
-export default function ProductCard ({ name, picture, price }) {
+export default function ProductCard ({ id, name, picture, price }) {
   return (
     <CardWrapper column>
       <CardThumbnail src={picture} alt={name} loading="lazy" width={300} height={300}/>
 
       <Flex justifyContent="center" css={[padding.y2, width.full]}>
-        <CircleButtonLink to="/product/1">
+        <CircleButtonLink to={`/product/${id}`}>
           <EyeIcon/>
         </CircleButtonLink>
-        <CircleButton css={margin.x2}>
+        <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2}>
           <PencilIcon/>
-        </CircleButton>
+        </CircleButtonLink>
         <CircleButton variant="danger">
           <TrashIcon/>
         </CircleButton>

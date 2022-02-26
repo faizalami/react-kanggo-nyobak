@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { useParams } from 'react-router-dom';
-import { Grid } from '../../components/FlexGrid';
-import { margin, pageWrapper, rounded, width } from '../../components/utilities';
+import { Flex, Grid } from '../../components/FlexGrid';
+import { margin, padding, pageWrapper, rounded, width } from '../../components/utilities';
 import styled from '@emotion/styled';
 import { darkGray } from '../../components/variables';
 import mediaQueries from '../../components/media-queries';
+import { CircleButton, CircleButtonLink } from '../../components/Buttons';
+import { ReactComponent as EyeIcon } from '../../icons/eye.svg';
+import { ReactComponent as PencilIcon } from '../../icons/pencil.svg';
+import { ReactComponent as TrashIcon } from '../../icons/trash.svg';
 
 const dummyDetail = {
   name: 'Kertas',
@@ -54,7 +58,7 @@ function DetailContent ({ label, children }) {
 
 export default function Details () {
   const { id } = useParams();
-  console.info(id);
+
   return (
     <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper}>
       <section>
@@ -67,6 +71,18 @@ export default function Details () {
         <DetailContent label="Description">{dummyDetail.description}</DetailContent>
         <DetailContent label="Category">{dummyDetail.category}</DetailContent>
         <DetailContent label="Stock">{dummyDetail.stock}</DetailContent>
+
+        <Flex css={padding.y2}>
+          <CircleButtonLink to={`/product/${id}`}>
+            <EyeIcon/>
+          </CircleButtonLink>
+          <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2}>
+            <PencilIcon/>
+          </CircleButtonLink>
+          <CircleButton variant="danger">
+            <TrashIcon/>
+          </CircleButton>
+        </Flex>
       </DetailContentSection>
     </Grid>
   );

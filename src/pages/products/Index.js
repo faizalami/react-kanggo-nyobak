@@ -7,31 +7,37 @@ import ProductCard from '../../components/ProductCard';
 
 const productDummy = [
   {
+    id: 1,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
     price: 20000,
   },
   {
+    id: 2,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
     price: 50000,
   },
   {
+    id: 3,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
     price: 20000,
   },
   {
+    id: 4,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
     price: 50000,
   },
   {
+    id: 5,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
     price: 20000,
   },
   {
+    id: 6,
     name: 'Test',
     picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
     price: 50000,
