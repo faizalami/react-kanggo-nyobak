@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Index from './pages/products/Index';
 import Details from './pages/products/Detail';
 import Form from './pages/products/Form';
+import NotFound from './pages/NotFound';
 
 function App () {
   return (
@@ -16,9 +17,7 @@ function App () {
       </Route>
       <Route
         path="*"
-        element={
-          <Layout>Not Found.</Layout>
-        }
+        element={<NotFound/>}
       />
     </Routes>
   );
