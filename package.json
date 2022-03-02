@@ -31,6 +31,7 @@
     "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "yarn test -- --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -51,5 +52,12 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@emotion/jest": "^11.8.0"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "@emotion/jest/serializer"
+    ]
+  }
 }
