@@ -42,7 +42,7 @@ export function applyFlexTo (component, defaultProps) {
   const appliedComponent = styled(component)(props => css`
     display: ${props.inline ? 'inline-flex' : 'flex'};
     flex-direction: ${props.column ? 'column' : 'row'};
-    flex-wrap: ${props.wrap === false ? 'nowrap' : 'wrap'};
+    flex-wrap: ${props.wrap || 'wrap'};
     ${generateFlexProps(props)}
 
     ${generateResponsive(props, generateFlexProps)}
@@ -56,7 +56,7 @@ export const Flex = applyFlexTo('div');
 function generateGridProps (props) {
   return css`
     ${props.cols ? `grid-template-columns: repeat(${props.cols}, minmax(0, 1fr));` : null}
-    ${props.rows ? `grid-template-rows: repeat(${props.cols}, minmax(0, 1fr));` : null}
+    ${props.rows ? `grid-template-rows: repeat(${props.rows}, minmax(0, 1fr));` : null}
     ${props.gap && props.gap <= 8 ? `gap: ${props.gap * 0.25}rem;` : null}
     ${props.container ? container : null}
   `;
