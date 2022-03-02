@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
-test('ProductCard match with snapshot', () => {
+test('ProductCard matches snapshot', () => {
   const dummyProduct = {
     id: 1,
     name: 'Test',
@@ -13,6 +13,6 @@ test('ProductCard match with snapshot', () => {
   expect(render(
     <MemoryRouter>
       <ProductCard {...dummyProduct} />
-    </MemoryRouter>
+    </MemoryRouter>,
   )).toMatchSnapshot();
-})
+});

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Layout from './Layout';
 
-test('Layout match with snapshot', () => {
+test('Layout matches snapshot', () => {
   expect(render(
     <MemoryRouter>
       <Layout/>

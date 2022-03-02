@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { render, screen } from '@testing-library/react';
 import { matchers } from '@emotion/jest';
 import { applyFlexTo, applyGridTo, Flex, Grid } from './FlexGrid';

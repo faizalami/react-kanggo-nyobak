@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NotFound match with snapshot 1`] = `
+exports[`NotFound matches snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": .emotion-0 {
