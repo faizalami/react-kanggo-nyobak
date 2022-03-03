@@ -93,6 +93,7 @@ function LinkWithClassName (props) {
       replace={props.replace}
       state={props.state}
       reloadDocument={props.reloadDocument}
+      aria-label={props['aria-label']}
     >
       {props.children}
     </Link>

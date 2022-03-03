@@ -1,14 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { useParams } from 'react-router-dom';
-import { Flex, Grid } from '../../components/FlexGrid';
-import { margin, padding, pageWrapper, rounded, width } from '../../components/utilities';
+import { Grid } from '../../components/FlexGrid';
+import { margin, pageWrapper, rounded, width } from '../../components/utilities';
 import styled from '@emotion/styled';
 import { darkGray } from '../../components/variables';
 import mediaQueries from '../../components/media-queries';
-import { CircleButton, CircleButtonLink } from '../../components/Buttons';
-import { ReactComponent as EyeIcon } from '../../icons/eye.svg';
+import { CircleButtonLink } from '../../components/Buttons';
 import { ReactComponent as PencilIcon } from '../../icons/pencil.svg';
-import { ReactComponent as TrashIcon } from '../../icons/trash.svg';
 
 const dummyDetail = {
   name: 'Kertas',
@@ -72,17 +70,9 @@ export default function Details () {
         <DetailContent label="Category">{dummyDetail.category}</DetailContent>
         <DetailContent label="Stock">{dummyDetail.stock}</DetailContent>
 
-        <Flex css={padding.y2}>
-          <CircleButtonLink to={`/product/${id}`}>
-            <EyeIcon/>
-          </CircleButtonLink>
-          <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2}>
-            <PencilIcon/>
-          </CircleButtonLink>
-          <CircleButton variant="danger">
-            <TrashIcon/>
-          </CircleButton>
-        </Flex>
+        <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
+          <PencilIcon/>
+        </CircleButtonLink>
       </DetailContentSection>
     </Grid>
   );
