@@ -70,7 +70,7 @@ export default function Details () {
         <DetailContent label="Category">{dummyDetail.category}</DetailContent>
         <DetailContent label="Stock">{dummyDetail.stock}</DetailContent>
 
-        <CircleButtonLink to={`/product/edit/${id}`}>
+        <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
           <PencilIcon/>
         </CircleButtonLink>
       </DetailContentSection>
