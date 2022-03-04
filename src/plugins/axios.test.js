@@ -1,6 +1,6 @@
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import axiosRequest from './axios';
+import axios from './axios';
 
 test('axios request works with correct configs', async () => {
   const sendPayload = { sent: 'hello' };
@@ -17,7 +17,7 @@ test('axios request works with correct configs', async () => {
   );
   server.listen();
 
-  const { data } = await axiosRequest.post('/test', { ...sendPayload });
+  const { data } = await axios.post('/test', { ...sendPayload });
 
   expect(reqHeader).toBe('application/json');
   expect(reqBody).toEqual(sendPayload);

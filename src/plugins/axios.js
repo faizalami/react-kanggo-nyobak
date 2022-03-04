@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axiosLib from 'axios';
 
-const axiosRequest = axios.create({
+const axios = axiosLib.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export default axiosRequest;
+export default axios;
