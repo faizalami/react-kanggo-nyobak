@@ -15,10 +15,8 @@ function App () {
         <Route path="add" element={<Form/>}/>
         <Route path="edit/:id" element={<Form/>}/>
       </Route>
-      <Route
-        path="*"
-        element={<NotFound/>}
-      />
+      <Route path="/404" element={<NotFound/>}/>
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
   );
 }
