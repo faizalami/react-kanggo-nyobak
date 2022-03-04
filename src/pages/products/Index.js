@@ -4,47 +4,32 @@ import { Flex, Grid } from '../../components/FlexGrid';
 import { margin, width, textIcon, pageWrapper } from '../../components/utilities';
 import { ReactComponent as PlusIcon } from '../../icons/plus.svg';
 import ProductCard from '../../components/ProductCard';
-
-const productDummy = [
-  {
-    id: 1,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
-    price: 20000,
-  },
-  {
-    id: 2,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
-    price: 50000,
-  },
-  {
-    id: 3,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
-    price: 20000,
-  },
-  {
-    id: 4,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
-    price: 50000,
-  },
-  {
-    id: 5,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_01_81fe1029fa.jpg',
-    price: 20000,
-  },
-  {
-    id: 6,
-    name: 'Test',
-    picture: 'http://localhost:1337/uploads/thumbnail_category_page_04_image_card_04_510ae6d0e4.jpg',
-    price: 50000,
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { selectData } from '../../redux/products/products.selectors';
+import { useCallback, useEffect, useMemo } from 'react';
+import { loadProductData } from '../../redux/products/products.actions';
 
 export default function Index () {
+  const dispatch = useDispatch();
+  const products = useSelector(selectData);
+
+  const dispatchLoadProducts = useCallback(() => {
+    dispatch(loadProductData());
+  }, [dispatch]);
+
+  const productWithThumbnail = useMemo(() => {
+    return products.map(item => {
+      return {
+        ...item,
+        picture: `${process.env.REACT_APP_API_BASE_URL}${item.picture.formats.thumbnail.url}`,
+      };
+    });
+  }, [products]);
+
+  useEffect(() => {
+    dispatchLoadProducts();
+  }, [dispatchLoadProducts]);
+
   return (
     <Flex css={width.full}>
       <ButtonLink to="/product/add" css={margin.lAuto}>
@@ -52,7 +37,7 @@ export default function Index () {
       </ButtonLink>
 
       <Grid as="article" cols={1} gap={4} lg={{ cols: 4 }} css={[pageWrapper, margin.t3]}>
-        {productDummy.map((item, index) => (
+        {productWithThumbnail.map((item, index) => (
           <ProductCard key={index} {...item} />
         ))}
       </Grid>
