@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { Grid } from '../../components/FlexGrid';
 import { margin, pageWrapper, rounded, width } from '../../components/utilities';
 import styled from '@emotion/styled';
@@ -7,15 +7,13 @@ import { darkGray } from '../../components/variables';
 import mediaQueries from '../../components/media-queries';
 import { CircleButtonLink } from '../../components/Buttons';
 import { ReactComponent as PencilIcon } from '../../icons/pencil.svg';
-
-const dummyDetail = {
-  name: 'Kertas',
-  picture: 'http://localhost:1337/uploads/large_category_page_04_image_card_03_79a516741a.jpg',
-  description: 'The biological vogon accelerative influences the astronaut.',
-  price: '10000',
-  stock: 500,
-  category: 'ATK',
-};
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectDetailById,
+  selectProductsError,
+} from '../../redux/products/products.selectors';
+import { useCallback, useEffect, useMemo } from 'react';
+import { loadProductDetail } from '../../redux/products/products.actions';
 
 const DetailImage = styled.img`
   height: 100%;
@@ -56,24 +54,53 @@ function DetailContent ({ label, children }) {
 
 export default function Details () {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const error = useSelector(selectProductsError);
 
-  return (
-    <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper}>
-      <section>
-        <DetailImage src={dummyDetail.picture} alt={dummyDetail.name} loading="lazy" width={500} height={300}/>
-      </section>
-      <DetailContentSection>
-        <DetailTitle>{dummyDetail.name}</DetailTitle>
-        <DetailPrice>Rp {dummyDetail.price}</DetailPrice>
+  let detailById = useSelector(state => selectDetailById(state, id));
 
-        <DetailContent label="Description">{dummyDetail.description}</DetailContent>
-        <DetailContent label="Category">{dummyDetail.category}</DetailContent>
-        <DetailContent label="Stock">{dummyDetail.stock}</DetailContent>
+  const dispatchLoadProducts = useCallback(() => {
+    dispatch(loadProductDetail(id));
+  }, [dispatch, id]);
 
-        <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
-          <PencilIcon/>
-        </CircleButtonLink>
-      </DetailContentSection>
-    </Grid>
-  );
+  const detail = useMemo(() => {
+    if (detailById) {
+      return {
+        ...detailById,
+        picture: detailById ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.formats.large.url}` : '',
+      };
+    }
+    return null;
+  }, [detailById]);
+
+  useEffect(() => {
+    if (!detailById) {
+      dispatchLoadProducts();
+    }
+  }, [dispatchLoadProducts, detailById]);
+
+  if (!error) {
+    return (
+      <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper}>
+        {detail ? (<>
+          <section>
+            <DetailImage src={detail.picture} alt={detail.name} loading="lazy" width={500} height={300}/>
+          </section>
+          <DetailContentSection>
+            <DetailTitle>{detail.name}</DetailTitle>
+            <DetailPrice>Rp {detail.price}</DetailPrice>
+
+            <DetailContent label="Description">{detail.description}</DetailContent>
+            <DetailContent label="Category">{detail.category}</DetailContent>
+            <DetailContent label="Stock">{detail.stock}</DetailContent>
+
+            <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
+              <PencilIcon/>
+            </CircleButtonLink>
+          </DetailContentSection>
+        </>) : null}
+      </Grid>
+    );
+  }
+  return (<Navigate to="/404"/>);
 }
