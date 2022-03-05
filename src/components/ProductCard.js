@@ -23,7 +23,7 @@ const CardThumbnail = styled.img`
 
 export default function ProductCard ({ id, name, picture, price }) {
   return (
-    <CardWrapper column>
+    <CardWrapper column data-testid="product-card">
       <CardThumbnail src={picture} alt={name} loading="lazy" width={300} height={300}/>
 
       <Flex justifyContent="center" css={[padding.y2, width.full]}>

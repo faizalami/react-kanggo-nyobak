@@ -21,7 +21,7 @@ export default function Index () {
     return products.map(item => {
       return {
         ...item,
-        picture: `${process.env.REACT_APP_API_BASE_URL}${item.picture.formats.thumbnail.url}`,
+        picture: item.picture ? `${process.env.REACT_APP_API_BASE_URL}${item.picture.formats.thumbnail.url}` : '',
       };
     });
   }, [products]);
