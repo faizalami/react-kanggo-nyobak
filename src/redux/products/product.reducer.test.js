@@ -2,7 +2,7 @@ import productsReducer, { initialState } from './products.reducer';
 import { productDetailDummy, productListDummy } from '../../test-utils/mocks/product';
 import { DELETE_PRODUCT, SET_PRODUCT_DATA, SET_PRODUCT_DETAIL, SET_PRODUCT_ERROR } from './products.types';
 
-describe('Test product reducer', () => {
+describe('Test Product Reducer', () => {
   test('initial state', () => {
     expect(productsReducer(initialState, {})).toEqual(initialState);
   });
