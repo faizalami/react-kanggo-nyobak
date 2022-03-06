@@ -5,27 +5,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import Detail from './Detail';
-
-const productDummy = Array(2).fill().map((item, index) => ({
-  id: index + 1,
-  name: `Test ${index + 1}`,
-  picture: index ? null : {
-    url: `test-${index}.jpg`,
-  },
-  description: null,
-  price: null,
-  stock: null,
-  category: null,
-}));
-
-const detailMock = [
-  rest.get(`${process.env.REACT_APP_API_BASE_URL}/products/2`, (req, res, ctx) => {
-    return res(ctx.json(productDummy[1]));
-  }),
-  rest.get(`${process.env.REACT_APP_API_BASE_URL}/products/3`, (req, res, ctx) => {
-    return res(ctx.status(404));
-  }),
-];
+import { productDetailAPI, productDetailDummy } from '../../test-utils/mocks/product';
 
 function DummyNotFound () {
   return (<div>404</div>);
@@ -35,7 +15,7 @@ function TestDetail ({ id }) {
   const store = configureStore({
     products: {
       data: [
-        productDummy[0],
+        productDetailDummy[0],
       ],
       detail: null,
       error: false,
@@ -58,7 +38,7 @@ function TestDetail ({ id }) {
 }
 
 describe('Test Detail Page', () => {
-  const server = setupServer(...detailMock);
+  const server = setupServer(productDetailAPI);
   beforeAll(() => server.listen());
   afterEach(() => server.restoreHandlers());
   afterAll(() => server.close());

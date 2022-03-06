@@ -80,6 +80,8 @@ export default function Form () {
   const pictureInput = useRef();
   const [tempPicture, setTempPicture] = useState(null);
 
+  const [productId, setProductId] = useState(null);
+
   const resetForm = useCallback(() => {
     const editMode = id && detailById;
     setName(editMode ? detailById.name : '');
@@ -129,59 +131,77 @@ export default function Form () {
   const handleFormSubmit = async event => {
     event.preventDefault();
 
-    const productId = id ? await dispatch(editProduct(id, payload)) : await dispatch(createProduct(payload));
-    if (!error) {
-      navigate(`/product/${productId}`);
-    }
+    const response = id ? await dispatch(editProduct(id, payload)) : await dispatch(createProduct(payload));
+    setProductId(response);
   };
 
+  useEffect(() => {
+    if (!error && productId) {
+      navigate(`/product/${productId}`);
+    }
+  }, [error, productId, navigate]);
+
+  useEffect(() => {
+    if (id && error && !detailById) {
+      navigate('/404');
+    }
+  }, [id, error, detailById, navigate]);
+
   return (
-    <Grid
-      as="form"
-      cols={1}
-      lg={{ cols: 2 }}
-      gap={8}
-      css={[pageWrapper, formStyle]}
-      onSubmit={handleFormSubmit}
-      onReset={resetForm}
-    >
-      <MergedSection>
-        <FormTitle>{id ? 'Edit' : 'Add'} Product</FormTitle>
-      </MergedSection>
-      <section>
-        <FormInput id="name" label="Name" value={name} onChange={handleFormName}/>
-        <FormInput id="price" type="number" label="Price" value={price} onChange={handleFormPrice}/>
-      </section>
-      <section>
-        <FormInput id="category" label="Category" value={category} onChange={handleFormCategory}/>
-        <FormInput id="stock" type="number" label="Stock" value={stock} onChange={handleFormStock}/>
-      </section>
-      <MergedSection>
-        <FormInput
-          id="description"
-          type="textarea"
-          label="Description"
-          value={description}
-          onChange={handleFormDescription}
-        />
-        {
-          tempPicture ?
-            <PicturePreview pictureUrl={tempPicture} productName={name}/> :
-            null
-        }
-        <FormInput
-          id="picture"
-          ref={pictureInput}
-          type="file"
-          label={tempPicture ? 'Change Picture' : 'Picture'}
-          onChange={handlePictureLoaded}
-        />
-      </MergedSection>
-      <ButtonWrapper justifyContent="center">
-        <Button type="reset" variant="outline" css={margin.r4}>Cancel</Button>
-        <Button type="submit">Save</Button>
-      </ButtonWrapper>
-      {error ? <ErrorMessage>Failed to save product</ErrorMessage> : null}
-    </Grid>
+    <>
+      <Grid
+        as="form"
+        cols={1}
+        lg={{ cols: 2 }}
+        gap={8}
+        css={[pageWrapper, formStyle]}
+        onSubmit={handleFormSubmit}
+        onReset={resetForm}
+      >
+        <MergedSection>
+          <FormTitle>{id ? 'Edit' : 'Add'} Product</FormTitle>
+        </MergedSection>
+        <section>
+          <FormInput id="name" label="Name" value={name} onChange={handleFormName}/>
+          <FormInput id="price" type="number" label="Price" value={price} onChange={handleFormPrice}/>
+        </section>
+        <section>
+          <FormInput id="category" label="Category" value={category} onChange={handleFormCategory}/>
+          <FormInput id="stock" type="number" label="Stock" value={stock} onChange={handleFormStock}/>
+        </section>
+        <MergedSection>
+          <FormInput
+            id="description"
+            type="textarea"
+            label="Description"
+            value={description}
+            onChange={handleFormDescription}
+          />
+          {
+            tempPicture ?
+              <PicturePreview pictureUrl={tempPicture} productName={name}/> :
+              null
+          }
+          <FormInput
+            id="picture"
+            ref={pictureInput}
+            type="file"
+            label={tempPicture ? 'Change Picture' : 'Picture'}
+            onChange={handlePictureLoaded}
+          />
+        </MergedSection>
+        <ButtonWrapper justifyContent="center">
+          <Button type="reset" variant="outline" css={margin.r4}>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </ButtonWrapper>
+        {error ?
+          (
+            <MergedSection>
+              <ErrorMessage>Failed to save product</ErrorMessage>
+            </MergedSection>
+          )
+          : null}
+      </Grid>
+    </>
   );
 }
