@@ -61,9 +61,11 @@ export const createProduct = (payload) => {
       });
 
       dispatch(setProductDetail(data));
+      return data.id;
     } catch (error) {
       dispatch(setProductDetail(null));
       dispatch(setProductError(true));
+      return null;
     }
   };
 };
@@ -79,9 +81,11 @@ export const editProduct = (id, payload) => {
       });
 
       dispatch(setProductDetail(data));
+      return data.id;
     } catch (error) {
       dispatch(setProductDetail(null));
       dispatch(setProductError(true));
+      return null;
     }
   };
 };

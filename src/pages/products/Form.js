@@ -10,7 +10,7 @@ import { css } from '@emotion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../components/Buttons';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDetailById, selectProductsError, selectStoredDetailId } from '../../redux/products/products.selectors';
+import { selectDetailById, selectProductsError } from '../../redux/products/products.selectors';
 import { createProduct, editProduct, loadProductDetail } from '../../redux/products/products.actions';
 import { serialize } from 'object-to-formdata';
 import { red } from '../../components/variables';
@@ -59,9 +59,7 @@ export default function Form () {
   const error = useSelector(selectProductsError);
   const navigate = useNavigate();
 
-  const storedDetailId = useSelector(selectStoredDetailId);
   const detailById = useSelector(state => selectDetailById(state, id));
-
   const dispatchLoadProducts = useCallback(() => {
     dispatch(loadProductDetail(id));
   }, [dispatch, id]);
@@ -82,12 +80,13 @@ export default function Form () {
   const pictureInput = useRef();
   const [tempPicture, setTempPicture] = useState(null);
 
-  const resetForm = () => {
-    setName(id ? detailById.name : '');
-    setPrice(id ? detailById.price : '');
-    setCategory(id ? detailById.category : '');
-    setStock(id ? detailById.stock : '');
-    setDescription(id ? detailById.description : '');
+  const resetForm = useCallback(() => {
+    const editMode = id && detailById;
+    setName(editMode ? detailById.name : '');
+    setPrice(editMode ? detailById.price : '');
+    setCategory(editMode ? detailById.category : '');
+    setStock(editMode ? detailById.stock : '');
+    setDescription(editMode ? detailById.description : '');
     setPicture(null);
 
     let tempPicture = id && detailById?.picture
@@ -96,13 +95,13 @@ export default function Form () {
     setTempPicture(tempPicture);
 
     pictureInput.current.value = null;
-  };
+  }, [id, detailById, setName, setPrice, setCategory, setStock, setDescription, setPicture, setTempPicture]);
 
   useEffect(() => {
     if (id) {
       resetForm();
     }
-  }, [id]);
+  }, [id, resetForm]);
 
   const handlePictureLoaded = event => {
     if (event.target.files.length) {
@@ -127,25 +126,14 @@ export default function Form () {
     return serialize(payload, { indices: true });
   }, [name, price, category, stock, description, picture]);
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = async event => {
     event.preventDefault();
 
-    if (id) {
-      dispatch(editProduct(id, payload));
-
-      if (!error) {
-        navigate(`/product/${id}`);
-      }
-    } else {
-      dispatch(createProduct(payload));
+    const productId = id ? await dispatch(editProduct(id, payload)) : await dispatch(createProduct(payload));
+    if (!error) {
+      navigate(`/product/${productId}`);
     }
   };
-
-  useEffect(() => {
-    if (!id && !error && storedDetailId) {
-      navigate(`/product/${storedDetailId}`);
-    }
-  }, [id, error, storedDetailId, navigate]);
 
   return (
     <Grid

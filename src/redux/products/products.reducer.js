@@ -14,13 +14,10 @@ const productsReducer = (state = initialState, action) => {
         data: [...action.payload],
       };
     case SET_PRODUCT_DETAIL:
-      if (action.payload?.id !== state.detail?.id) {
-        return {
-          ...state,
-          detail: { ...action.payload },
-        };
-      }
-      return state;
+      return {
+        ...state,
+        detail: { ...action.payload },
+      };
     case SET_PRODUCT_ERROR:
       return {
         ...state,
