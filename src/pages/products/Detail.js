@@ -68,7 +68,7 @@ export default function Detail () {
       return {
         ...detailById,
         picture: detailById?.picture
-          ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.formats.large.url}`
+          ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.url}`
           : '',
       };
     }

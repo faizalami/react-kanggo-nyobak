@@ -10,9 +10,7 @@ const productDummy = Array(2).fill().map((item, index) => ({
   id: index + 1,
   name: `Test ${index + 1}`,
   picture: index ? null : {
-    formats: {
-      large: { url: `test-${index}.jpg` },
-    },
+    url: `test-${index}.jpg`,
   },
   description: null,
   price: null,

@@ -16,11 +16,21 @@ export const selectStoredDetail = createSelector(
   products => products.detail,
 );
 
+export const selectStoredDetailId = createSelector(
+  [selectStoredDetail],
+  detail => detail?.id,
+);
+
 export const selectDetailById = createSelector(
   [
     selectData,
     selectStoredDetail,
     (state, id) => id,
   ],
-  (data, detail, id) => data.find(product => product.id === Number(id)) || detail,
+  (data, detail, id) => {
+    if (detail?.id === Number(id)) {
+      return detail;
+    }
+    return data.find(product => product.id === Number(id));
+  },
 );

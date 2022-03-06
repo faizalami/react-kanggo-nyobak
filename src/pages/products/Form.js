@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { applyFlexTo, Flex, Grid } from '../../components/FlexGrid';
 import { margin, pageWrapper, rounded, width } from '../../components/utilities';
 import styled from '@emotion/styled';
@@ -7,17 +7,13 @@ import mediaQueries from '../../components/media-queries';
 import useFormState from '../../hooks/useFormState';
 import FormInput, { FormLabel } from '../../components/FormInput';
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../components/Buttons';
-
-const dummyDetail = {
-  name: 'Kertas',
-  picture: 'http://localhost:1337/uploads/large_category_page_04_image_card_03_79a516741a.jpg',
-  description: 'The biological vogon accelerative influences the astronaut.',
-  price: '10000',
-  stock: 500,
-  category: 'ATK',
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDetailById, selectProductsError, selectStoredDetailId } from '../../redux/products/products.selectors';
+import { createProduct, editProduct, loadProductDetail } from '../../redux/products/products.actions';
+import { serialize } from 'object-to-formdata';
+import { red } from '../../components/variables';
 
 const MergedSection = styled.section`
   ${mediaQueries.lg} {
@@ -43,6 +39,11 @@ const PicturePreviewImage = styled.img`
   ${rounded}
 `;
 
+const ErrorMessage = styled.p`
+  text-align: center;
+  color: ${red};
+`;
+
 function PicturePreview ({ pictureUrl, productName }) {
   return (
     <Flex column css={[margin.b4, width.full]}>
@@ -54,6 +55,22 @@ function PicturePreview ({ pictureUrl, productName }) {
 
 export default function Form () {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const error = useSelector(selectProductsError);
+  const navigate = useNavigate();
+
+  const storedDetailId = useSelector(selectStoredDetailId);
+  const detailById = useSelector(state => selectDetailById(state, id));
+
+  const dispatchLoadProducts = useCallback(() => {
+    dispatch(loadProductDetail(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (id && !detailById) {
+      dispatchLoadProducts();
+    }
+  }, [id, dispatchLoadProducts, detailById]);
 
   const [name, setName, handleFormName] = useFormState('');
   const [price, setPrice, handleFormPrice] = useFormState('');
@@ -65,23 +82,27 @@ export default function Form () {
   const pictureInput = useRef();
   const [tempPicture, setTempPicture] = useState(null);
 
+  const resetForm = () => {
+    setName(id ? detailById.name : '');
+    setPrice(id ? detailById.price : '');
+    setCategory(id ? detailById.category : '');
+    setStock(id ? detailById.stock : '');
+    setDescription(id ? detailById.description : '');
+    setPicture(null);
+
+    let tempPicture = id && detailById?.picture
+      ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.url}`
+      : '';
+    setTempPicture(tempPicture);
+
+    pictureInput.current.value = null;
+  };
+
   useEffect(() => {
     if (id) {
       resetForm();
     }
   }, [id]);
-
-  const resetForm = () => {
-    setName(id ? dummyDetail.name : '');
-    setPrice(id ? dummyDetail.price : '');
-    setCategory(id ? dummyDetail.category : '');
-    setStock(id ? dummyDetail.stock : '');
-    setDescription(id ? dummyDetail.description : '');
-    setTempPicture(id ? dummyDetail.picture : '');
-    setPicture(null);
-
-    pictureInput.current.value = null;
-  };
 
   const handlePictureLoaded = event => {
     if (event.target.files.length) {
@@ -89,14 +110,42 @@ export default function Form () {
     }
   };
 
+  const payload = useMemo(() => {
+    let payload = {
+      data: JSON.stringify({ name, price, category, stock, description }),
+    };
+
+    if (picture) {
+      payload = {
+        ...payload,
+        files: {
+          picture,
+        },
+      };
+    }
+
+    return serialize(payload, { indices: true });
+  }, [name, price, category, stock, description, picture]);
+
   const handleFormSubmit = event => {
     event.preventDefault();
 
-    // Submit function
-    console.info({
-      name, price, category, stock, description, picture,
-    });
+    if (id) {
+      dispatch(editProduct(id, payload));
+
+      if (!error) {
+        navigate(`/product/${id}`);
+      }
+    } else {
+      dispatch(createProduct(payload));
+    }
   };
+
+  useEffect(() => {
+    if (!id && !error && storedDetailId) {
+      navigate(`/product/${storedDetailId}`);
+    }
+  }, [id, error, storedDetailId, navigate]);
 
   return (
     <Grid
@@ -144,6 +193,7 @@ export default function Form () {
         <Button type="reset" variant="outline" css={margin.r4}>Cancel</Button>
         <Button type="submit">Save</Button>
       </ButtonWrapper>
+      {error ? <ErrorMessage>Failed to save product</ErrorMessage> : null}
     </Grid>
   );
 }

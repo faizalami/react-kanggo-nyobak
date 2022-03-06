@@ -49,3 +49,39 @@ export const loadProductDetail = (id) => {
     }
   };
 };
+
+export const createProduct = (payload) => {
+  return async dispatch => {
+    try {
+      dispatch(setProductError(false));
+      const { data } = await axios.post('/products', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      dispatch(setProductDetail(data));
+    } catch (error) {
+      dispatch(setProductDetail(null));
+      dispatch(setProductError(true));
+    }
+  };
+};
+
+export const editProduct = (id, payload) => {
+  return async dispatch => {
+    try {
+      dispatch(setProductError(false));
+      const { data } = await axios.put(`/products/${id}`, payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      dispatch(setProductDetail(data));
+    } catch (error) {
+      dispatch(setProductDetail(null));
+      dispatch(setProductError(true));
+    }
+  };
+};
