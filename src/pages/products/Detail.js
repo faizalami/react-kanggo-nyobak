@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { Grid } from '../../components/FlexGrid';
 import { margin, pageWrapper, rounded, width } from '../../components/utilities';
 import styled from '@emotion/styled';
@@ -55,6 +55,7 @@ function DetailContent ({ label, children }) {
 export default function Detail () {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const error = useSelector(selectProductsError);
 
   let detailById = useSelector(state => selectDetailById(state, id));
@@ -81,28 +82,31 @@ export default function Detail () {
     }
   }, [dispatchLoadProducts, detailById]);
 
-  if (!error) {
-    return (
-      <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper} data-testid="detail">
-        {detail ? (<>
-          <section>
-            <DetailImage src={detail.picture} alt={detail.name} loading="lazy" width={500} height={300}/>
-          </section>
-          <DetailContentSection>
-            <DetailTitle>{detail.name}</DetailTitle>
-            <DetailPrice>Rp {detail.price}</DetailPrice>
+  useEffect(() => {
+    if (id && error && !detailById) {
+      navigate('/404');
+    }
+  }, [id, error, detailById, navigate]);
 
-            <DetailContent label="Description">{detail.description}</DetailContent>
-            <DetailContent label="Category">{detail.category}</DetailContent>
-            <DetailContent label="Stock">{detail.stock}</DetailContent>
+  return (
+    <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper} data-testid="detail">
+      {detail ? (<>
+        <section>
+          <DetailImage src={detail.picture} alt={detail.name} loading="lazy" width={500} height={300}/>
+        </section>
+        <DetailContentSection>
+          <DetailTitle>{detail.name}</DetailTitle>
+          <DetailPrice>Rp {detail.price}</DetailPrice>
 
-            <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
-              <PencilIcon/>
-            </CircleButtonLink>
-          </DetailContentSection>
-        </>) : null}
-      </Grid>
-    );
-  }
-  return (<Navigate to="/404"/>);
+          <DetailContent label="Description">{detail.description}</DetailContent>
+          <DetailContent label="Category">{detail.category}</DetailContent>
+          <DetailContent label="Stock">{detail.stock}</DetailContent>
+
+          <CircleButtonLink to={`/product/edit/${id}`} aria-label="Edit">
+            <PencilIcon/>
+          </CircleButtonLink>
+        </DetailContentSection>
+      </>) : null}
+    </Grid>
+  );
 }

@@ -1,15 +1,17 @@
 import configureStore from '../../redux/store';
-import { rest } from 'msw';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import Detail from './Detail';
 import { productDetailAPI, productDetailDummy } from '../../test-utils/mocks/product';
 
-function DummyNotFound () {
-  return (<div>404</div>);
-}
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUsedNavigate,
+}));
 
 function TestDetail ({ id }) {
   const store = configureStore({
@@ -27,10 +29,6 @@ function TestDetail ({ id }) {
       <MemoryRouter initialEntries={[`/product/${id}`]}>
         <Routes>
           <Route path="/product/:id" element={<Detail/>}/>
-          <Route
-            path="/404"
-            element={<DummyNotFound/>}
-          />
         </Routes>
       </MemoryRouter>
     </Provider>
@@ -57,7 +55,9 @@ describe('Test Detail Page', () => {
 
   test('display correct detail when the id doesn\'t exist both in store and in server', async () => {
     render(<TestDetail id={3}/>);
-    const exist = await screen.findByText('404');
-    expect(exist).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(mockedUsedNavigate).toHaveBeenCalledWith('/404');
+    });
   });
 });
