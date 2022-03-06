@@ -1,6 +1,6 @@
 import { DELETE_PRODUCT, SET_PRODUCT_DATA, SET_PRODUCT_DETAIL, SET_PRODUCT_ERROR } from './products.types';
 
-const initialState = {
+export const initialState = {
   data: [],
   detail: null,
   error: false,
