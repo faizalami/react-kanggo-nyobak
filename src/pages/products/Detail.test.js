@@ -57,7 +57,7 @@ function TestDetail ({ id }) {
   );
 }
 
-describe('Test detail page', () => {
+describe('Test Detail Page', () => {
   const server = setupServer(...detailMock);
   beforeAll(() => server.listen());
   afterEach(() => server.restoreHandlers());
@@ -66,18 +66,18 @@ describe('Test detail page', () => {
   test('display correct detail', async () => {
     render(<TestDetail id={1}/>);
     const exist = await screen.findByText('Test 1');
-    expect(exist).toBeTruthy();
+    expect(exist).toBeInTheDocument();
   });
 
   test('display correct detail when the id doesn\'t exist in store but exist in server', async () => {
     render(<TestDetail id={2}/>);
     const exist = await screen.findByText('Test 2');
-    expect(exist).toBeTruthy();
+    expect(exist).toBeInTheDocument();
   });
 
   test('display correct detail when the id doesn\'t exist both in store and in server', async () => {
     render(<TestDetail id={3}/>);
     const exist = await screen.findByText('404');
-    expect(exist).toBeTruthy();
+    expect(exist).toBeInTheDocument();
   });
 });

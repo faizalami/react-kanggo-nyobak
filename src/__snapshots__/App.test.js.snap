@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test App App matches snapshot 1`] = `
+exports[`App matches snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": .emotion-0 {
@@ -325,7 +325,6 @@ Object {
           />
         </div>
       </main>
-      ,
     </div>
   </body>,
   "container": .emotion-0 {
@@ -649,7 +648,6 @@ Object {
         />
       </div>
     </main>
-    ,
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

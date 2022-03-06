@@ -223,7 +223,7 @@ Object {
           class="emotion-2"
         >
           <a
-            aria-label="Detail"
+            aria-label="Show Test detail"
             class="emotion-3"
             href="/product/1"
           >
@@ -232,7 +232,7 @@ Object {
             </svg>
           </a>
           <a
-            aria-label="Edit"
+            aria-label="Edit Test"
             class="emotion-4"
             href="/product/edit/1"
           >
@@ -241,7 +241,7 @@ Object {
             </svg>
           </a>
           <button
-            aria-label="Delete"
+            aria-label="Delete Test"
             class="emotion-5"
           >
             <svg>
@@ -482,7 +482,7 @@ Object {
         class="emotion-2"
       >
         <a
-          aria-label="Detail"
+          aria-label="Show Test detail"
           class="emotion-3"
           href="/product/1"
         >
@@ -491,7 +491,7 @@ Object {
           </svg>
         </a>
         <a
-          aria-label="Edit"
+          aria-label="Edit Test"
           class="emotion-4"
           href="/product/edit/1"
         >
@@ -500,7 +500,7 @@ Object {
           </svg>
         </a>
         <button
-          aria-label="Delete"
+          aria-label="Delete Test"
           class="emotion-5"
         >
           <svg>

@@ -27,13 +27,13 @@ export default function ProductCard ({ id, name, picture, price, onDelete }) {
       <CardThumbnail src={picture} alt={name} loading="lazy" width={300} height={300}/>
 
       <Flex justifyContent="center" css={[padding.y2, width.full]}>
-        <CircleButtonLink to={`/product/${id}`} aria-label="Detail">
+        <CircleButtonLink to={`/product/${id}`} aria-label={`Show ${name} detail`}>
           <EyeIcon/>
         </CircleButtonLink>
-        <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2} aria-label="Edit">
+        <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2} aria-label={`Edit ${name}`}>
           <PencilIcon/>
         </CircleButtonLink>
-        <CircleButton variant="danger" aria-label="Delete" onClick={() => onDelete(id)}>
+        <CircleButton variant="danger" aria-label={`Delete ${name}`} onClick={() => onDelete(id)}>
           <TrashIcon/>
         </CircleButton>
       </Flex>
