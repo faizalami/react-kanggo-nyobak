@@ -32,7 +32,6 @@ export const loadProductData = () => {
     } catch (error) {
       dispatch(setProductData([]));
       dispatch(setProductError(true));
-      console.error(error);
     }
   };
 };
@@ -47,7 +46,6 @@ export const loadProductDetail = (id) => {
     } catch (error) {
       dispatch(setProductDetail(null));
       dispatch(setProductError(true));
-      console.error(error);
     }
   };
 };

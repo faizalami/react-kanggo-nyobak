@@ -52,7 +52,7 @@ function DetailContent ({ label, children }) {
   );
 }
 
-export default function Details () {
+export default function Detail () {
   const { id } = useParams();
   const dispatch = useDispatch();
   const error = useSelector(selectProductsError);
@@ -67,7 +67,9 @@ export default function Details () {
     if (detailById) {
       return {
         ...detailById,
-        picture: detailById ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.formats.large.url}` : '',
+        picture: detailById?.picture
+          ? `${process.env.REACT_APP_API_BASE_URL}${detailById.picture.formats.large.url}`
+          : '',
       };
     }
     return null;
@@ -81,7 +83,7 @@ export default function Details () {
 
   if (!error) {
     return (
-      <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper}>
+      <Grid as="article" cols={1} lg={{ cols: 3 }} gap={4} css={pageWrapper} data-testid="detail">
         {detail ? (<>
           <section>
             <DetailImage src={detail.picture} alt={detail.name} loading="lazy" width={500} height={300}/>

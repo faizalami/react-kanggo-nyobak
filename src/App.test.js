@@ -1,4 +1,3 @@
-import React from 'react';
 import { rest } from 'msw';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -10,8 +9,8 @@ import configureStore from './redux/store';
 const store = configureStore();
 
 const productDummy = Array(10).fill().map((item, index) => ({
-  id: index,
-  name: `Test ${index}`,
+  id: index + 1,
+  name: `Test ${index + 1}`,
   picture: index < 5 ? null : {
     formats: {
       thumbnail: { url: `test-${index}.jpg` },
