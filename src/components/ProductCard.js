@@ -21,7 +21,7 @@ const CardThumbnail = styled.img`
   ${width.full}
 `;
 
-export default function ProductCard ({ id, name, picture, price }) {
+export default function ProductCard ({ id, name, picture, price, onDelete }) {
   return (
     <CardWrapper column data-testid="product-card">
       <CardThumbnail src={picture} alt={name} loading="lazy" width={300} height={300}/>
@@ -33,7 +33,7 @@ export default function ProductCard ({ id, name, picture, price }) {
         <CircleButtonLink to={`/product/edit/${id}`} css={margin.x2} aria-label="Edit">
           <PencilIcon/>
         </CircleButtonLink>
-        <CircleButton variant="danger" aria-label="Delete">
+        <CircleButton variant="danger" aria-label="Delete" onClick={() => onDelete(id)}>
           <TrashIcon/>
         </CircleButton>
       </Flex>

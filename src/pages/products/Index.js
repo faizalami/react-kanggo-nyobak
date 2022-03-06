@@ -7,7 +7,7 @@ import ProductCard from '../../components/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectData } from '../../redux/products/products.selectors';
 import { useCallback, useEffect, useMemo } from 'react';
-import { loadProductData } from '../../redux/products/products.actions';
+import { deleteProduct, loadProductData } from '../../redux/products/products.actions';
 
 export default function Index () {
   const dispatch = useDispatch();
@@ -30,6 +30,10 @@ export default function Index () {
     dispatchLoadProducts();
   }, [dispatchLoadProducts]);
 
+  const handleDelete = id => {
+    dispatch(deleteProduct(id));
+  }
+
   return (
     <Flex css={width.full}>
       <ButtonLink to="/product/add" css={margin.lAuto}>
@@ -38,7 +42,7 @@ export default function Index () {
 
       <Grid as="article" cols={1} gap={4} lg={{ cols: 4 }} css={[pageWrapper, margin.t3]}>
         {productWithThumbnail.map((item, index) => (
-          <ProductCard key={index} {...item} />
+          <ProductCard key={index} {...item} onDelete={handleDelete}/>
         ))}
       </Grid>
     </Flex>

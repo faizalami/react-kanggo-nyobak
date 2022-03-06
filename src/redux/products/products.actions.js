@@ -1,4 +1,4 @@
-import { SET_PRODUCT_DATA, SET_PRODUCT_DETAIL, SET_PRODUCT_ERROR } from './products.types';
+import { DELETE_PRODUCT, SET_PRODUCT_DATA, SET_PRODUCT_DETAIL, SET_PRODUCT_ERROR } from './products.types';
 import axios from '../../plugins/axios';
 
 export const setProductData = data => {
@@ -12,6 +12,13 @@ export const setProductDetail = detail => {
   return {
     type: SET_PRODUCT_DETAIL,
     payload: detail,
+  };
+};
+
+export const deleteProductInData = id => {
+  return {
+    type: DELETE_PRODUCT,
+    payload: id,
   };
 };
 
@@ -86,6 +93,19 @@ export const editProduct = (id, payload) => {
       dispatch(setProductDetail(null));
       dispatch(setProductError(true));
       return null;
+    }
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async dispatch => {
+    try {
+      dispatch(setProductError(false));
+      const { data } = await axios.delete(`/products/${id}`);
+
+      dispatch(deleteProductInData(data.id));
+    } catch (error) {
+      dispatch(setProductError(true));
     }
   };
 };
