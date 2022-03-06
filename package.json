@@ -36,9 +36,9 @@
   "scripts": {
     "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
+    "start:build": "yarn serve -s build",
     "test": "react-scripts test",
-    "test:coverage": "yarn test -- --coverage --watchAll",
-    "eject": "react-scripts eject"
+    "test:coverage": "yarn test -- --coverage --watchAll"
   },
   "eslintConfig": {
     "extends": [
@@ -60,7 +60,8 @@
   },
   "devDependencies": {
     "@emotion/jest": "^11.8.0",
-    "msw": "^0.38.2"
+    "msw": "^0.38.2",
+    "serve": "^13.0.2"
   },
   "jest": {
     "snapshotSerializers": [
